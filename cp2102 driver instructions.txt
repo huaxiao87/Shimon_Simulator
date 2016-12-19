@@ -1,0 +1,51 @@
+Drivers for marimba robot USB-serial:
+
+download os x VCP CP2102  drivers from silabs
+click silicon labs USB driver installer
+install as per instructions.
+
+restart
+
+connect usb -rs485 box.
+
+open system profiler
+select USB   /   CP2102 USB to UART Bridge Controller.
+
+you should see something like:
+
+CP2102 USB to UART Bridge Controller:
+
+  Version:	1.00
+  Bus Power (mA):	500
+  Speed:	Up to 12 Mb/sec
+  Manufacturer:	Silicon Labs
+  Product ID:	0x81d7
+  Serial Number:	0590000020-20080421-0000004828
+  Vendor ID:	0x10c4
+
+
+get info / set permissions to everyone read & write for
+/System/Library/Extensions/SiLabsUSBDriver.kext/Contents/Info.plist
+and its enclosing folders
+
+open Info.plist with property list editor (in marimba robot control folder)
+
+under Root / IOkit personalities /SiLabsUSBDriver - F320 BULK
+copy and paste the idVendor and idProduct from the values in system profiler.
+
+save
+
+return file and folder permissions back to original.
+
+Open a terminal session
+type: 
+type: sudo kextload /System/Library/Extensions/SiLabsUSBDriver.kext
+type: sudo touch /System/Library/Extensions
+type: ls -al /dev/tty.*
+you should see the new port:
+crw-rw-rw-  1 root  wheel   17,   4 Sep  8 14:51 /dev/tty.serial-0001
+
+
+
+
+
